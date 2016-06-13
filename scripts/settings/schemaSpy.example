@@ -1,0 +1,6 @@
+# Example configuration file for schemaSpy
+DB_USER="test"
+DB_PASS="test"
+# Can be any browser, or perhaps just "ls" if you don't want to open the
+# browser automatically
+BROWSER_COMMAND="firefox"
