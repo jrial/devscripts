@@ -65,6 +65,7 @@ fixes or new features without accidentally committing your personal config.
 
 **WARNING**: every time you run install.sh, your scripts (but not configuration)
 will be overwritten with the contents of the local workspace. If you have local
-modifications, back up your files before running the installation script. When
-implementing new features, you can edit the files in your repo, and simply run
-the installer to deploy so you can test your changes before committing.
+modifications in your installation folder, back up your files before running the
+installation script. When implementing new features, you can edit the files in
+your repo, and simply run the installer to deploy so you can test your changes
+before committing.
