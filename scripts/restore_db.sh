@@ -18,7 +18,7 @@ if [ ! -f restore_tables ] ; then
   exit 1
 fi
 
-if [ "$(psql -l|grep $DB|cut -d '|' -f 1|sed -e 's/\W//g')" != "$DB" ]; then
+if [ "$(psql -l|grep "^\s*$DB\s*|"|cut -d '|' -f 1|sed -e 's/\W//g')" != "$DB" ]; then
   echo "Database does not exist; here's the list of databases:"
   psql -l
   exit 2
