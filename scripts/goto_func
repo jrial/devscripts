@@ -1,0 +1,40 @@
+function goto {
+    app=$1
+    found_app=`grep "${app}" /etc/app_locations.conf`
+    if [ "${found_app}" == "" ] || [ "${app}" == "" ]; then
+        echo "Please specify a valid application name. Options:"
+        for a in `cat /etc/app_locations.conf|sed -e s/:.*//` ; do
+            echo ${a}
+        done
+        return 0
+    fi
+    if [ "$VIRTUAL_ENV" != "" ] ; then
+        goback
+    fi
+    echo "Entering ${app}; to go back to where you were, type 'goback'"
+    # Change folder
+    GOTO_PREV_PATH=$PWD
+    target_path=`echo ${found_app} | sed -e 's/.*: *//'`
+    cd "${target_path}"
+
+    # Set up virtualenv stuff; basically the same thing "workon" does.
+    export VIRTUAL_ENV="${HOME}/.virtualenvs/${app}"
+    export PATH="$VIRTUAL_ENV/bin:$PATH"
+    unset PYTHON_HOME
+
+    # Update prompt
+    GOTO_PREV_PS1=$PS1
+    PS1="(${app}) ${PS1}"
+}
+
+function goback {
+    if [ "$VIRTUAL_ENV" == "" ] ; then
+        return 0
+    fi
+    cd $GOTO_PREV_PATH
+    unset GOTO_PREV_PATH
+    PS1=$GOTO_PREV_PS1
+    unset GOTO_PREV_PS1
+    export PATH=`echo $PATH|/bin/sed -e "s#${VIRTUAL_ENV}/bin:##"`
+    unset VIRTUAL_ENV
+}
